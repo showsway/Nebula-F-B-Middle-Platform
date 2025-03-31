@@ -57,12 +57,15 @@ public class AliOssUtil {
         stringBuilder
                 .append(bucketName)
                 .append(".")
-                .append(endpoint)
+                .append(endpoint.split("//")[1])
                 .append("/")
                 .append(objectName);
 
         log.info("文件上传到:{}", stringBuilder.toString());
-
         return stringBuilder.toString();
+        //文件访问路径
+/*        String url = endpoint.split("//")[0] + "//" + bucketName + "." + endpoint.split("//")[1] + "/" + objectName;
+        log.info("文件上传到:{}", url);
+        return url;*/
     }
 }
