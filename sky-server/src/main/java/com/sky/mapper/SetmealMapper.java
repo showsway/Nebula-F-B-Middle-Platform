@@ -49,7 +49,7 @@ public interface SetmealMapper {
     void insertSetmealDish(SetmealDish setmealDish);
 
     /**
-     *
+     *  套餐分页条件查询
      * @param setmealPageQueryDTO
      * @return
      */
@@ -57,7 +57,7 @@ public interface SetmealMapper {
     Page<SetmealVO> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
 
     /**
-     * 根据id查询套餐
+     * 根据id查询套餐基本信息
      * @param id
      * @return
      */
