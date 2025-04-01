@@ -2,8 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.SetmealMapper">
+<!--    新增套餐基本信息-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal
+        ( category_id, name, price, status, description, image, create_time, create_user, update_time, update_user)
+        values
+        ( #{categoryId}, #{name}, #{price}, #{status}, #{description}, #{image}, #{createTime}, #{createUser}, #{updateTime}, #{updateUser})
+    </insert>
 
-<!--    套餐根据id更新-->
+    <!--    套餐根据id更新-->
     <update id="update">
         update setmeal
         <set>
