@@ -35,6 +35,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     /**
      * 新增套餐，同时需要保存套餐和菜品的关联关系
+     *
      * @param setmealDTO
      */
     @Transactional
@@ -48,7 +49,7 @@ public class SetmealServiceImpl implements SetmealService {
         //保存套餐和菜品的关联信息，操作setmeal_dish表
         //套餐id是自增主键，是在新增套餐时自动添加的，所以需要在新增套餐的同时才能获取到套餐id
         List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
-        if(setmealDishes != null && setmealDishes.size() > 0){
+        if (setmealDishes != null && setmealDishes.size() > 0) {
             setmealDishes.forEach(setmealDish -> {
                 setmealDish.setSetmealId(setmeal.getId());
                 log.info("新增套餐和菜品的关联信息：{}", setmealDish);
@@ -59,19 +60,21 @@ public class SetmealServiceImpl implements SetmealService {
 
     /**
      * 套餐分页查询
+     *
      * @param setmealPageQueryDTO
      * @return
      */
     @Override
     public PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO) {
         PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
-        Page<SetmealVO> page= setmealMapper.pageQuery(setmealPageQueryDTO);
+        Page<SetmealVO> page = setmealMapper.pageQuery(setmealPageQueryDTO);
         return new PageResult(page.getTotal(), page.getResult());
 
     }
 
     /**
      * 批量删除套餐
+     *
      * @param ids
      */
     @Override
@@ -94,6 +97,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     /**
      * 根据id查询套餐以及关联的菜品
+     *
      * @param id
      * @return
      */
@@ -107,8 +111,10 @@ public class SetmealServiceImpl implements SetmealService {
         setmealVO.setSetmealDishes(setmealDishes);
         return setmealVO;
     }
+
     /**
      * 修改套餐
+     *
      * @param setmealDTO
      */
     @Transactional
@@ -133,6 +139,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     /**
      * 套餐起售停售
+     *
      * @param status
      * @param id
      */
@@ -163,7 +170,7 @@ public class SetmealServiceImpl implements SetmealService {
                 });
             }*/
             List<Dish> dishs = dishMapper.getBySetmealId(id);
-            if (dishs!= null && dishs.size() > 0) {
+            if (dishs != null && dishs.size() > 0) {
                 dishs.forEach(dish -> {
                     if (dish.getStatus() == 0) {
                         //当前套餐存在菜品处于停售状态，不能起售
@@ -173,7 +180,7 @@ public class SetmealServiceImpl implements SetmealService {
             }
         }
         //更新套餐
-        Setmeal setmeal= Setmeal.builder()
+        Setmeal setmeal = Setmeal.builder()
                 .id(id)
                 .status(status)
                 .build();
