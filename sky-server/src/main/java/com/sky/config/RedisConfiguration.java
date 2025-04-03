@@ -21,7 +21,7 @@ public class RedisConfiguration {
         log.info("RedisTemplate已配置");
         //设置序列化器
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer() );
+        //redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer() );
         return redisTemplate;
     }
 }

@@ -19,7 +19,7 @@ public class SetmealController {
     private SetmealService setmealService;
 
     /**
-     * 条件查询
+     * 条件查询套餐
      *
      * @param categoryId
      * @return
