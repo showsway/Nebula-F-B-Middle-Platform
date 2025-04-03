@@ -45,9 +45,20 @@ sky:
     # 设置前端传递过来的令牌名称
     admin-token-name: token
 
+    #设置用户端签名秘钥
+    user-secret-key: showxcijnawdsoifjoisdoijfjiosdovjinio
+    # 设置用户端过期时间
+    user-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authentication
+
 #/* 阿里云配置*/
   alioss:
     endpoint: ${aliyun.oss.endpoint}
     accessKeyId: ${aliyun.oss.accessKeyId}
     accessKeySecret: ${aliyun.oss.accessKeySecret}
     bucketName: ${aliyun.oss.bucketName}
+
+  wechat:
+    appid: ${wechat.appid}
+    secret: ${wechat.secret}
