@@ -11,4 +11,6 @@ public interface ShoppingCartService {
 
     List<ShoppingCart> showShopingCart();
 
+    void cleanShoppingCart();
+
 }
