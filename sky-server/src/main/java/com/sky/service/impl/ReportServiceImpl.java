@@ -2,8 +2,10 @@ package com.sky.service.impl;
 
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
+import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.TurnoverReportVO;
+import com.sky.vo.UserReportVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 获取营业额统计数据
@@ -32,14 +36,8 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public TurnoverReportVO getTurnoverStatistics(LocalDate begin, LocalDate end) {
-        //当前集合存放begin到end的日期
-        List<LocalDate> dateList = new ArrayList<>();
-        dateList.add(begin);
-        while (!begin.equals(end)){
-            //+1天
-            begin = begin.plusDays(1);
-            dateList.add(begin);
-        }
+        //获取begin到end的所有日期
+        List<LocalDate> dateList = getLocalDates(begin, end);
 
         List<Double> turnoverList = new ArrayList<>();
         for (LocalDate localDate : dateList) {
@@ -58,6 +56,57 @@ public class ReportServiceImpl implements ReportService {
         return TurnoverReportVO.builder()
                 .dateList(StringUtils.join(dateList,","))
                 .turnoverList(StringUtils.join(turnoverList,","))
+                .build();
+    }
+
+    //获取begin到end的所有日期
+    private static List<LocalDate> getLocalDates(LocalDate begin, LocalDate end) {
+        //当前集合存放begin到end的日期
+        List<LocalDate> dateList = new ArrayList<>();
+        dateList.add(begin);
+        while (!begin.equals(end)){
+            //+1天
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+        return dateList;
+    }
+
+    /**
+     * 获取用户统计数据
+     * @param begin
+     * @param end
+     * @return
+     */
+    @Override
+    public UserReportVO getUserStatistics(LocalDate begin, LocalDate end) {
+        //获取begin到end的所有日期
+        List<LocalDate> dateList = getLocalDates(begin, end);
+        //用户总量
+        List<Integer> totalUserList = new ArrayList<>();
+        //新增用户
+        List<Integer> newUserList = new ArrayList<>();
+
+        for (LocalDate localDate : dateList) {
+            //查询localDate日期的营业额，营业额指状态为已完成的订单的订单金额总和
+            LocalDateTime beginTime = LocalDateTime.of(localDate, LocalTime.MIN);
+            LocalDateTime endTime = LocalDateTime.of(localDate, LocalTime.MAX);
+            Map map=new HashMap();
+
+            map.put("end",endTime);
+            Integer totalUser = userMapper.countByMap(map);
+
+            map.put("begin",beginTime);
+            Integer newUser = userMapper.countByMap(map);
+
+            totalUserList.add(totalUser);
+            newUserList.add(newUser);
+        }
+        //封装结果数据
+        return UserReportVO.builder()
+                .dateList(StringUtils.join(dateList,","))
+                .totalUserList(StringUtils.join(totalUserList,","))
+                .newUserList(StringUtils.join(newUserList,","))
                 .build();
     }
 }
