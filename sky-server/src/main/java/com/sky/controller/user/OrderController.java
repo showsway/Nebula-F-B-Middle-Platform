@@ -55,6 +55,7 @@ public class OrderController {
     @GetMapping("/historyOrders")
     public Result<PageResult> page(int page,int pageSize,Integer status){
         PageResult pageResult = orderService.pageQuery(page,pageSize,status);
+        log.info("用户端订单历史分页查询：{}",pageResult);
         return Result.success(pageResult);
     }
 
