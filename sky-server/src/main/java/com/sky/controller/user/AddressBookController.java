@@ -41,6 +41,12 @@ public class AddressBookController {
         return Result.success();
     }
 
+    /**
+     * 根据id查询地址
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public Result<AddressBook> getById(@PathVariable Long id) {
         AddressBook addressBook = addressBookService.getById(id);
