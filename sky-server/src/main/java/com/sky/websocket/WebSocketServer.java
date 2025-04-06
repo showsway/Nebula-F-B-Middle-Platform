@@ -16,6 +16,8 @@ import java.util.Map;
  * WebSocket服务
  */
 @Component
+//前端已经写好，只要客户端登录进去就会向服务器发送请求，来建立连接，然后服务器会将请求的sid作为参数传递过来,
+// 然后服务器就可以根据sid来找到对应的会话对象，然后就可以向客户端发送消息了
 @ServerEndpoint("/ws/{sid}")
 public class WebSocketServer {
 

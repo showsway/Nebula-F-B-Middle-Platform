@@ -253,7 +253,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderVO details(Long id) {
         Orders orders = orderMapper.getById(id);
-
+        if (orders == null) {
+            // 处理订单不存在的情况，例如抛出异常或返回错误信息
+            throw new RuntimeException("订单不存在，id=" + id);
+        }
         // 查询该订单对应的菜品/套餐明细
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(orders.getId());
 
