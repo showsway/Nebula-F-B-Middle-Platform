@@ -8,6 +8,7 @@
         insert into user (name,  phone, sex, id_number, openid, create_time, avatar)
         values (#{name}, #{phone}, #{sex}, #{idNumber}, #{openid}, #{createTime}, #{avatar})
     </insert>
+
     <select id="countByMap" resultType="java.lang.Integer">
         select count(*) from user
         <where>
@@ -19,4 +20,5 @@
             </if>
         </where>
     </select>
+
 </mapper>
